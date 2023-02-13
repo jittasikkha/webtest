@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %} File Download {% endblock %}
+{% block content %}
+<head>
+    <meta property='og:title' content='ดาวน์โหลด : {{file.name}}'/>
+    <meta property='og:image' content='https://drive.google.com/file/d/11uFDhuGESWack319Z2EUX4_RKJpWKvKO/view?usp=share_link'/>
+    <meta property='og:description' content='ดาวน์โหลดเอกสารเผยแพร่สาธารณะ'/>
+    <meta property='og:url' content='jittasikkhapost.com'/>
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='627' />
+    <!-- TYPE BELOW IS PROBABLY: 'website' or 'article' or look on https://ogp.me/#types -->
+    <meta property="og:type" content='website'/>
+   
+</head>
+
+<section class="section">
+	{% if messages %}
+	{% for msg in messages %}
+		{% if msg.tags == 'success' %}
+	<div class="container">
+		<div class="container p-4 my-4" style='background-color: rgb(187, 187, 187);'>
+			<div>
+				<h2 style="color: rgb(0, 0, 0);">{{file.name}} 
+					[คลิ๊ก Download] </h2>
+				<p style="color: rgb(0, 0, 0);">วิชา : {{file.subject}} , ระดับชั้น {{file.room}}</p>
+				<p style="color: rgb(0, 0, 0)"><strong>Note :</strong> เอกสารชิ้นนี้เป็นลิขสิทธิ์ของ <strong>"โรงเรียนลำปลายมาศพัฒนา"</strong> แต่เพียงผู้เดียว ประสงค์เผยแพร่เพื่อการศึกษาเท่านั้น <strong style="color: firebrick;">ห้ามใช้ในเชิงพาณิชย์ </strong></p>
+				<div class="card-columns">
+					<a href="{{file.upload.url}}" class="btn btn-primary" download="{{file.upload.url}}">Download</a>
+				</div>
+			</div>
+		  </div>
+		{% endif %}
+	{% endfor %}
+	{%endif%}
+	</div>
+	<br>
+	<div class="container">
+		<article class="columns is-multiline mb-5 is-justify-content-center">
+			<div class="column is-10-desktop mb-4">
+				<h1 class="h2 mb-3">{{file.name}}</h1>
+				<ul class="list-inline post-meta mb-3">
+					<li class="list-inline-item"><i class="fa">&#xf02d;</i> {{file.subject}}
+					</li>
+					<li class="list-inline-item">ระดับชั้น : {{file.room}} </li>
+					<li class="list-inline-item"> <strong>จำนวนครั้งดาวน์โหลด : {{file.client_set.all.count}}</strong> </li>
+					<li class="list-inline-item">upload เมื่อ  : {{file.created}}</li>
+				</ul>
+			</div>
+			<div class="column is-10-desktop">
+				<div class="content">
+					<div class="row">
+                        <h4> กรอกข้อมูลเพื่อดาวน์โหลด </h4>
+                        <div class="col-lg-3 offset-lg-3">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                {{form|crispy}}
+                                <br>
+								<button type="submit" class="btn btn-outline-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</article>
+	</div>
+</section>
+
+
+
+
+
+
+{% endblock %}

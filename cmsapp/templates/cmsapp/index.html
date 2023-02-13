@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+	.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+	}
+	.hover11 figure img {
+	opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+	}
+.hover11 figure:hover img {
+	opacity: .5;
+}
+</style>
+<head>
+	<meta property='og:title' content='Jittasikkha Post '/>
+	<meta property='og:image' content='https://drive.google.com/file/d/1QtK5qv_Ity1feRuXY5uUj5Q2Y_zJruW-/view?usp=share_link'/>
+	<meta property='og:description' content='โลกไม่ได้เป็นของเรา(ผู้ใหญ่) เด็กทุกคนจึงมีสิทธิ์และมีอิสระที่จะเติบโตเป็นตนเอง เพื่อเป็นคนของโลกอย่างสมศักดิ์ศรี.'/>
+	<meta property='og:url' content='jittasikkhapost.com'/>
+	<meta property='og:image:width' content='1200' />
+	<meta property='og:image:height' content='627' />
+	<!-- TYPE BELOW IS PROBABLY: 'website' or 'article' or look on https://ogp.me/#types -->
+	<meta property="og:type" content='website'/>
+</head>
+<section >
+{% for cover in cover %}	
+	{% if cover.link is not None %}
+	<a href="{{ cover.link }}">
+		<div class="hover11 column">
+			<div>
+			  <figure><img src="{{ cover.image.url }}" class="center" alt=""></figure>
+			</div>
+		</div>
+	</a>
+	{% else %}
+	<img src="{{ cover.image.url }}" class="center" alt="">
+		<br>
+	{% endif %}
+{% endfor %}
+    <div class="column is-12" >
+        <div class="post-slider">  
+		{% for slide in slides %}
+			<img loading="lazy" src="{{ slide.image.url }}" class="" alt="post-thumb"  >
+		{% endfor %}
+        </div>
+    </div>
+	<div class="container">
+		<div class="columns is-desktop is-multiline">
+			<div class="column is-8-desktop">
+				{% for post in posts %}
+				<article class="columns is-multiline is-justify-content-center mb-6">
+					<div class="column is-12">
+						<div class="post-slider">
+							<img loading="lazy" src="{{ post.image.url }}" class="" alt="post-thumb">
+						</div>
+					</div>
+					<div class="column is-12">
+						<h3><a class="post-title" href="{% url 'cmsapp:detail' post.slug %}">{{ post.title }}</a></h3>
+						<ul class="list-inline post-meta mb-4">
+							<li class="list-inline-item">
+								<i style="font-size:18px" class="fa">&#xf06e;</i>  {{post.views}} ครั้ง
+							</li>
+							{% if post.writer.name is not none %}
+							<li class="list-inline-item"><i class="ti-user mr-2"></i>
+								<a href="{% url 'profile' post.writer.profile_id %}">{{ post.writer.name }}</a>
+							</li>
+							{% endif %}
+							<li class="list-inline-item">Date : {{ post.created }}</li>
+							<li class="list-inline-item">Categories : <a href="{% url 'cmsapp:category' post.category.slug %}" class="ml-1">{{post.category}} </a>
+							</li>
+							<li class="list-inline-item">Tags : 
+								{% for tag in post.tag.all %}
+								<a href="{% url 'cmsapp:tag' tag.slug %}" class="ml-1">{{tag}} </a>
+								{% endfor %}
+							</li>
+						</ul>
+						<div>
+							<p>{{ post.intro | safe | truncatechars:300 }}</p><a href="{% url 'cmsapp:detail' post.slug %}" class="btn btn-outline-primary">อ่านที่นี่</a>
+						</div>
+					</div>
+				</article>
+				{% endfor %}
+			</div>
+			<aside class="column is-4-desktop">
+				   <!-- Search -->
+	<div class="widget">
+		<p>Total Viewers : {{count}}</p>
+		<h5 class="widget-title"><span>Search</span></h5>
+		<form  class="widget-search" action="{% url 'cmsapp:index' %}">
+			<input id="search-query2" name="search" type="search" placeholder="Type &amp; Hit Enter...">
+			<button type="submit"><i class="ti-search"></i>
+			</button>
+		</form>
+   </div>
+   <!-- categories -->
+   <div class="widget">
+      <h5 class="widget-title"><span>Categories</span></h5>
+      <ul class="list-unstyled widget-list">
+		{% for category in categorys %}
+         <li><a href="{% url 'cmsapp:category' category.slug %}" class="is-flex">{{category.title}}
+               <small class="ml-auto">({{category.post_set.all.count}})</small></a>
+         </li>
+        {% endfor %}
+      </ul>
+   </div>
+   <!-- tags -->
+   <div class="widget">
+      <h5 class="widget-title"><span>Tags</span></h5>
+      <ul class="list-inline widget-list-inline">
+		{% for tag in tags %}
+         <li class="list-inline-item"><a href="{% url 'cmsapp:tag' tag.slug %}">{{tag}}</a>
+         </li>
+		{% endfor %}
+   </div>
+   <!-- latest post -->
+   <div class="widget">
+      <h5 class="widget-title"><span>Hot Article</span></h5>
+      <!-- post-item -->
+	  {% for post in mostpost %}
+      <ul class="list-unstyled widget-list">
+         <li class="media widget-post is-align-items-center">
+            <a href="{% url 'cmsapp:detail' post.slug %}">
+               <img loading="lazy" src="{{ post.image.url }}">
+            </a>
+            <div class="ml-4">
+               <h5 class="h6 mb-0"><a href="{% url 'cmsapp:detail' post.slug %}" >{{post.title}}</a></h5>
+               <small>{{post.created}}</small>
+
+				<i style="font-size:12px" class="fa">&#xf06e;</i>  <small>{{post.views}}</small>
+            </div>
+         </li>
+      </ul>
+	  {% endfor %}
+   </div>
+			</aside>
+		</div>
+	</div>
+</section>
+
+<nav aria-label="...">
+	<ul class="pagination" style="justify-content:center">
+	  {% if posts.has_previous %}
+	  <li ><a class="page-link" href="?page={{posts.previous_page_number}}" style= "color: rgb(90, 90, 90);"> Previous&nbsp;&nbsp; </a></li>
+	  {% endif %}
+	  {% for page in paginator.page_range %}
+	  {% if page == posts.number %}
+	  <li class="page-item active" aria-current="page">
+		  <span class="page-link" >{{page}}</span>
+	  </li>
+	  {% else %}
+	  <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+	  {% endif %}
+	  {% endfor %}
+	  {% if posts.has_next %}
+	  <li ><a class="page-link" href="?page={{posts.next_page_number}}" style = "color: rgb(90, 90, 90);"> Next&nbsp;</a></li>
+	  {% endif %}
+
+	</ul>
+</nav> 
+<br>
+{% endblock %}

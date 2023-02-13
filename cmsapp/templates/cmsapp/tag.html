@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <br>
+	<div class="container">
+		<div class="columns is-multiline">
+			<div class="column is-12">
+                <div class="text-center">
+                    <h2># {{tag}}</h2>
+                    <p class="lead fw-normal text-muted mb-5">บทความที่เกี่ยวข้อง ({{tag.post_set.all.count}})  </p>
+                </div>
+                {% for post in tag.post_set.all %}
+				<article class="columns is-multiline is-justify-content-center mb-6">
+					<div class="column is-4-tablet">
+						<div class="post-slider slider-sm">
+							<img loading="lazy" src="{{ post.image.url }}" class="" alt="post-thumb" style="height:200px; object-fit: cover;">
+						</div>
+					</div>
+					<div class="column is-8-tablet">
+						<h3 class="h5"><a class="post-title" href="post-elements.html">{{ post.title }}</a></h3>
+						<ul class="list-inline post-meta mb-2">
+							{% if post.writer.name is not none %}
+							<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'profile' post.writer.profile_id %}">{{ post.writer.name }}</a>
+							</li>
+							{% endif %}
+							<li class="list-inline-item">Date : {{post.created}} </li>
+							<li class="list-inline-item">Categories : <a href="{% url 'cmsapp:category' post.category.slug %}" class="ml-1">{{post.category}} </a>
+							</li>
+							<li class="list-inline-item">Tags : 
+                                {% for tag in post.tag.all %}
+                                <a href="{% url 'cmsapp:tag' tag.slug %}" class="ml-1">{{tag}}</a> 
+                                {% endfor %}
+							</li>
+						</ul>
+						<p>{{post.intro |safe| truncatechars:200}}</p> <a href="{% url 'cmsapp:detail' post.slug %}" class="btn btn-outline-primary">อ่านที่นี่</a>
+					</div>
+				</article>
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+{% endblock %}

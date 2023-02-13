@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section-sm border-bottom">
+	<div class="container">
+		<div class="columns is-multiline is-align-items-center">
+			<div class="column is-12">
+				<div class="title-bordered mb-5 is-flex is-align-items-center">
+					<h1 class="h4">{{profile.username }} ({{profile.name}})</h1>
+				</div>
+			</div>
+			<div class="column is-3-tablet has-text-centered-mobile">
+				<img loading="lazy" class="rounded-lg " src="{{profile.picture.url}}">
+			</div>
+			<div class="column is-9-tablet content has-text-centered-mobile">
+				<p>{{profile.abount}}</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="section-sm">
+	<div class="container">
+		<div class="columns is-multiline">
+			<div class="column is-12">
+				<div class="title has-text-centered">
+					<h3 class="mb-5">บทความ ({{ profile.post_set.count }})</h3>
+				</div>
+			</div>
+			{% for post in profile.post_set.all %}
+			<div class="column is-4-desktop is-6-tablet">
+				<article class="mb-5">
+					<div class="post-slider slider-sm">
+						<img loading="lazy" src="{{post.image.url}}" class="" alt="post-thumb">
+					</div>
+					<h3 class="h5"><a class="post-title" href="{% url 'cmsapp:detail' post.slug %}">{{ post.title }}</a></h3>
+					<ul class="list-inline post-meta mb-2">
+						{% if post.writer.name is not none %}
+						<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'profile' post.writer.profile_id %}">{{ post.writer.name }}</a>
+						</li>
+						{% endif %}
+						<li class="list-inline-item">Date : {{post.created}} </li>
+						<li class="list-inline-item">Categories : <a href="{% url 'cmsapp:category' post.category.slug %}" class="ml-1">{{post.category}} </a>
+						</li>
+						<li class="list-inline-item">Tags : 
+							{% for tag in post.tag.all %}
+							<a href="{% url 'cmsapp:tag' tag.slug %}" class="ml-1">{{tag}}</a> 
+							{% endfor %}
+						</li>
+					</ul>
+					<p>{{post.intro |safe| truncatechars:200}}</p> <a href="{% url 'cmsapp:detail' post.slug %}" class="btn btn-outline-primary">อ่านที่นี่</a>
+				</article>
+			</div>
+			{% endfor %}
+			
+		</div>
+	</div>
+</section>
+
+
+
+{% endblock %}
+
+

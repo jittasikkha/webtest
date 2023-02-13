@@ -1,0 +1,133 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+    <meta property='og:title' content='Jittasikkha Post - Download ไฟล์'/>
+    <meta property='og:image' content='https://drive.google.com/file/d/11uFDhuGESWack319Z2EUX4_RKJpWKvKO/view?usp=share_link'/>
+    <meta property='og:description' content='ดาวน์โหลดเอกสารเผยแพร่สาธารณะ'/>
+    <meta property='og:url' content='jittasikkhapost.com'/>
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='627' />
+    <!-- TYPE BELOW IS PROBABLY: 'website' or 'article' or look on https://ogp.me/#types -->
+    <meta property="og:type" content='website'/>
+</head>
+
+<style>
+    a { color: inherit; } 
+</style>
+<section>
+    <div class="container">
+        <br>
+        <div class="row justify-content-center">
+            <br>
+            <br>
+                <h5 ><span>วิชา : </span></h5> &nbsp;
+                <ul class="list-inline widget-list-inline">
+                {% for subject in subjects %}
+                   <li class="list-inline-item"><a href="{% url 'download_list' subject.pk %}">{{subject}}</a>
+                {% endfor %}
+             
+        </div>
+        <h5 class="text-center">Top Download</h5>
+        <div class="row justify-content-center"> 
+                
+            <ol>
+                    {% for top in topfile  %}
+				<li> <a href="{% url 'client_add' top.pk %}"  > <strong>{{top}}</strong> {{top.client_set.all.count}} ครั้ง</a>  </li>
+                    {%endfor%}
+			</ol>
+            
+        </div>
+        
+    </div>
+    {% for subject in subjects %}
+    <div class="container">
+        <div class="column is-12-desktop">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-2">
+                    <h4><strong>{{subject.name}}</strong></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <div class="table-wrap">
+                        <table class="table table-responsive-xl">
+                          <thead>
+                            <tr>
+                                <th>ไฟล์</th>
+                                <th>ระดับชั้น</th>
+                                <th>จำนวนดาวน์โหลด</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for file in subject.file_set.all%}
+                            {% if file.approved == True %}
+                        
+                            <tr class="alert" role="alert">
+                                    <td class="d-flex align-items-center">
+                                        <div class="img" ><img src="{{ file.image.url }}" ></div>
+                                        <div class="pl-3 email">
+                                            <a href="{% url 'client_add' file.pk %}">
+                                                <span><h6>{{file.name}}</h6></span>
+                                            </a>
+                                            <span>Added: {{file.created}}</span>
+                                        </div>
+                                    </td>
+                              <td>{{file.room}}</td>
+                              <td >{{file.client_set.count}} ครั้ง </td>
+                              <td class="status"> <a href="{% url 'client_add' file.pk %}"><span class="active"> Download</span></a>
+                              </button>
+                            </td>
+                            {% else %}
+                            {% endif %}
+                            {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </aside>
+</section>
+<nav aria-label="...">
+	<ul class="pagination" style="justify-content:center">
+	  {% if posts.has_previous %}
+	  <li ><a class="page-link" href="?page={{posts.previous_page_number}}" style= "color: rgb(90, 90, 90);"> Previous&nbsp;&nbsp; </a></li>
+	  {% endif %}
+	  {% for page in paginator.page_range %}
+	  {% if page == posts.number %}
+	  <li class="page-item active" aria-current="page">
+		  <span class="page-link" >{{page}}</span>
+	  </li>
+	  {% else %}
+	  <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+	  {% endif %}
+	  {% endfor %}
+	  {% if posts.has_next %}
+	  <li ><a class="page-link" href="?page={{posts.next_page_number}}" style = "color: rgb(90, 90, 90);"> Next&nbsp;</a></li>
+	  {% endif %}
+
+	</ul>
+</nav> 
+<br>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+
+
+
+
+
+
+
+{% endblock %}

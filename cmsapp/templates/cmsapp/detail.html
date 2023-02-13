@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<!-- Page content-->
+<style>
+	.containers {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+/* Then style the iframe to fit in the container div with full height and width */
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+
+
+<head>
+	<meta property='og:title' content='{{ post.title }}'/>
+	<meta property='og:image' content='{{ post.image.url }}'/>
+	<meta property='og:url' content='jittasikkhapost.com'/>
+	<meta property='og:image:width' content='1200' />
+	<meta property='og:image:height' content='627' />
+	<!-- TYPE BELOW IS PROBABLY: 'website' or 'article' or look on https://ogp.me/#types -->
+	<meta property="og:type" content='website'/>
+</head>
+
+<section >
+	<br>
+	<div class="container">
+		<article class="columns is-multiline mb-5 is-justify-content-center">
+			<div class="column is-10-desktop mb-4">
+				<h6 class="h2 mb-3">{{ post.title }}</h6>
+				<ul class="list-inline post-meta mb-3">
+					{% if post.writer.name is not none %}
+					<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="{% url 'profile' post.writer.profile_id %}">{{ post.writer.name }}</a>
+					</li>
+					{% endif %}
+					<li class="list-inline-item">Date : {{ post.created }}</li>
+					<li class="list-inline-item">Categories : <a href="{% url 'cmsapp:category' post.category.slug %}" class="ml-1">{{post.category}} </a>
+					</li>
+					
+					
+					<li class="list-inline-item">Tags : 
+					{% for tag in post.tag.all %}
+						<a href="{% url 'cmsapp:tag' tag.slug %}" class="ml-1">{{tag}}</a> 
+                    {% endfor %}
+					</li>
+					<li class="list-inline-item">
+						<i style="font-size:18px" class="fa">&#xf06e;</i>  {{post.views}} ครั้ง
+					</li>
+				</ul>
+			</div>
+			<div class="column is-12 mb-3">
+				<div class="post-slider">
+					<img src="{{ post.image.url }}" width="20px">
+				</div>
+			</div>
+			<div class="column is-10-desktop">
+				<div class="content">
+					 {{ post.body|safe}} 
+				</div>
+			</div>
+		</article>
+		<div class="widget">
+			<h5 class="widget-title"><span>Tags</span></h5>
+			<ul class="list-inline widget-list-inline">
+			{% for tag in post.tag.all %}
+			   <li class="list-inline-item"><a href="{% url 'cmsapp:tag' tag.slug %}">{{tag}}</a>
+			   </li>
+			{% endfor %}
+		 </div>
+	</div>
+	
+</section>
+
+{% endblock %}

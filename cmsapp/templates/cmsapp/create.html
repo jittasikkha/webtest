@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    #container{
+        width: 50%;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        height: auto;
+        padding: 30px 20px 20px 20px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+    }
+    #container h3{
+        text-align: center;
+    }
+</style>
+
+<div class="container" id = 'container'>
+    <h3><strong>สร้างบทความ</strong> </h3>
+    <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-primary" value="Create">
+
+    </form>
+</div>
+
+</form>
+<script>
+    let inputfields = document.getElementsByTagName('input')
+    let bodyField = document.getElementById('id_body')
+    let selectField = document.getElementById('id_category')
+    
+
+
+    for(let i=0; i<inputfields.length; i++){
+        inputfields[i].classList.add('form-control')
+    }
+    bodyField.classList.add('form-control')
+    selectField.classList.add('form-select')
+</script>
+{% endblock %}

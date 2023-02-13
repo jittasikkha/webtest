@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en-us">
+
+<head>
+   <meta charset="utf-8">
+   <title>Jittasikkha Post</title>
+
+   <!-- mobile responsive meta -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+   <meta name="description" content="This is meta description">
+   <meta name="author" content="Themefisher">
+
+   <!-- plugins -->
+   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@100&display=swap" style="font-display: optional;">
+   <link rel="stylesheet" href="{% static 'plugins/bulma/bulma.min.css' %}">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:600%7cOpen&#43;Sans&amp;display=swap" media="screen">
+   
+
+   <link rel="stylesheet" href="{% static 'plugins/themify-icons/themify-icons.css' %}">
+   <link rel="stylesheet" href="{% static 'plugins/slick/slick.css' %}">
+
+   <!-- Main Stylesheet -->
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+   <!--Favicon-->
+   <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="{% static 'img/favicon.png' %}">
+   <link rel="icon" href="{% static 'img/favicon.png' %}" type="{% static 'img/favicon.png' %}">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+   
+</head>
+
+<body>
+<!-- navigation -->
+<header class="is-sticky-top bg-white border-bottom border-default">
+   <div class="container">
+
+      <nav class="navigation navbar is-white">
+         <a class="navbar-brand is-inline-flex ml-0 is-align-items-center" href="{% url 'cmsapp:index' %}">
+            <h5>Jittasikkha Post - จิตศึกษา</h5>
+         </a>
+         <button role="button" class="navbar-burger burger" data-hidden="true" data-target="navigation">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+         </button>
+
+         <ul class="navbar-end navbar-menu" id="navigation">
+            <li class="navbar-item has-dropdown is-hoverable has-active">
+               <a class="navbar-link">Blog<small class="ti-angle-down ml-1"></small></a>
+               <div class="navbar-dropdown">
+                  {% for category in categorys %}
+                  <a class="navbar-item" href="{% url 'cmsapp:category' category.slug %}">{{ category.title }}</a>
+                  {% endfor %}
+            </li>
+
+            <li class="navbar-item has-dropdown is-hoverable has-active">
+               <a class="navbar-link">แรงบัลดาลใจ<small class="ti-angle-down ml-1"></small></a>
+               <div class="navbar-dropdown">
+                  <a class="navbar-item" href="https://www.jittasikkha.com/inspire/" target="_blank" rel="noopener noreferrer">ไม่มีหินก้อนใดโง่</a>
+                  <a class="navbar-item" href="https://www.jittasikkha.com/way/" target="_blank" rel="noopener noreferrer">วิถีโรงเรียนจิตศึกษา</a>
+                  <a class="navbar-item" href="https://www.jittasikkha.com/jitta/" target="_blank" rel="noopener noreferrer">กิจกรรมจิตศึกษา</a> 
+                  <a class="navbar-item" href="https://www.jittasikkha.com/pbl/" target="_blank" rel="noopener noreferrer"></a> 
+               </div>
+            </li>
+                
+            <li class="navbar-item">
+               <a class="navbar-link is-arrowless" href="{% url 'download' %}">ดาวน์โหลด</a>
+            </li>
+                
+            
+            
+            <li class="navbar-item">
+               <a class="navbar-link is-arrowless" href="https://www.jittasikkha.com" target="_blank" rel="noopener noreferrer">Support</a>
+            </li>
+            <!-- search -->
+         </ul>
+      </nav>
+   </div>
+</header>
+<!-- /navigation -->
+{% block content %}
+
+{% endblock %}
+    <footer class="section-sm pb-0 border-top border-default">
+        <div class="container">
+        <div class="columns is-multiline is-justify-content-space-between">
+            <div class="column is-4-desktop">
+                <a class="mb-5 is-block" href="index.html">
+                    <img class="" width="50px" src="{% static 'img/webclip.png' %}" alt="Lamplaimatpattana School">
+                </a>
+                <p> Lamplaimat Pattana School</p>
+            </div>
+
+            <div class="column is-4-desktop">
+                <h6 class="mb-4">Quick Links</h6>
+                <ul class="list-unstyled footer-list">
+                    <li><a href="https://www.jittasikkha.com/support/" target="_blank" rel="noopener noreferrer">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="column is-4-desktop ">
+                <h6 class="mb-4">Social Links</h6>
+                <ul class="list-unstyled footer-list">
+                    <li><a href="https://www.facebook.com/lamplaimatpattanaschool">facebook : Lamplaimat pattana School </a></li>
+                    <li><a href="https://www.facebook.com/khrucoach">facebook : ครูโค้ช โดยลำปลายมาศพัฒนา</a></li>
+                    <li><a href="https://www.facebook.com/groups/jittas">facebook group : โรงเรียนที่ใช้จิตศึกษา PBL และ PLC </a></li>
+                    <li><a href="https://www.youtube.com/c/%E0%B8%84%E0%B8%A3%E0%B8%B9%E0%B9%82%E0%B8%84%E0%B9%89%E0%B8%8A%E0%B9%82%E0%B8%94%E0%B8%A2%E0%B8%A5%E0%B9%8D%E0%B8%B2%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%A1%E0%B8%B2%E0%B8%A8%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B8%B2">youtube : ครูโค้ชโดยลําปลายมาศพัฒนา</a></li>
+                </ul>
+            </div>
+
+            
+        </div>
+        <div class="scroll-top">
+            <a href="javascript:void(0);" id="scrollTop"><i class="ti-angle-up"></i></a>
+        </div>
+        <div class="has-text-centered">
+            <p class="content">&copy; 2020 - 2022 &amp; Develop By Lamplaimat Pattana School , Education for Complete Human Development</p>
+        </div>
+        </div>
+    </footer>
+
+
+ <!-- JS Plugins -->
+ <script src="{% static 'plugins/jQuery/jquery.min.js' %}"></script>
+ <script src="{% static 'plugins/slick/slick.min.js' %}"></script>
+
+
+ <!-- Main Script -->
+ <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
